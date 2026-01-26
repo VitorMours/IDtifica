@@ -37,6 +37,36 @@ class CustomUser(AbstractUser):
   """  
   username = None
 
+  STATE_CHOICES = [
+    ("AC", "Acre"),
+    ("AL", "Alagoas"),
+    ("AP", "Amapá"),
+    ("AM", "Amazonas"),
+    ("BA", "Bahia"),
+    ("CE", "Ceará"),
+    ("DF", "Distrito Federal"),
+    ("ES", "Espírito Santo"),
+    ("GO", "Goiás"),
+    ("MA", "Maranhão"),
+    ("MT", "Mato Grosso"),
+    ("MS", "Mato Grosso do Sul"),
+    ("MG", "Minas Gerais"),
+    ("PA", "Pará"),
+    ("PB", "Paraíba"),
+    ("PR", "Paraná"),
+    ("PE", "Pernambuco"),
+    ("PI", "Piauí"),
+    ("RJ", "Rio de Janeiro"),
+    ("RN", "Rio Grande do Norte"),
+    ("RS", "Rio Grande do Sul"),
+    ("RO", "Rondônia"),
+    ("RR", "Roraima"),
+    ("SC", "Santa Catarina"),
+    ("SP", "São Paulo"),
+    ("SE", "Sergipe"),
+    ("TO", "Tocantins"),
+  ]
+
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
   first_name = models.CharField(_('first name'), max_length=50, blank=False, null=False)
   last_name = models.CharField( _('last name'), max_length=50, blank=False, null=False)
@@ -44,7 +74,7 @@ class CustomUser(AbstractUser):
   birthday = models.DateField(_('birthday'), null=True, blank=True)
   phone = models.CharField(_('phone number'), max_length=20, blank=True, null=True)
   city = models.CharField(_('city'), max_length=100, blank=True, null=True)
-  state = models.CharField(_('state'), max_length=2, blank=True, null=True)
+  state = models.CharField(_('state'), max_length=2, blank=True, null=True, choices=STATE_CHOICES)
   created_at = models.DateTimeField(_('created at'), auto_now_add=True)
   updated_at = models.DateTimeField(_('updated at'), auto_now=True)
       
@@ -53,11 +83,14 @@ class CustomUser(AbstractUser):
 
   objects = CustomUserManager()
 
-
   class Meta:
     verbose_name = _("user")
     verbose_name_plural = _("users")
     ordering = ['-created_at']
+
+
+  def get_full_name(self) -> str:
+    return f"{self.first_name} {self.last_name}"
 
   def __str__(self):
     return self.email
