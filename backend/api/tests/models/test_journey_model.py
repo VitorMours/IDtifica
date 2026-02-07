@@ -26,19 +26,17 @@ class TestJourneyModel(TestCase):
     self.assertTrue(hasattr(class_, "name"))
     self.assertTrue(hasattr(class_, "description"))
     self.assertTrue(hasattr(class_, "is_active"))
-    self.assertTrue(hasattr(class_, "enrollments"))
     self.assertTrue(hasattr(class_, "sector"))
     self.assertTrue(hasattr(class_, "created_at"))
     self.assertTrue(hasattr(class_, "updated_at"))
     
   def test_if_journey_model_fields_have_correct_types(self) -> None:
-    module = importlib.import_module("api.modes")
+    module = importlib.import_module("api.models")
     class_ = module.Journey 
     self.assertIsInstance(class_._meta.get_field("id"), models.UUIDField)
     self.assertIsInstance(class_._meta.get_field("name"), models.CharField)
     self.assertIsInstance(class_._meta.get_field("description"), models.CharField)
     self.assertIsInstance(class_._meta.get_field("is_active"), models.BooleanField)
-    self.assertIsInstance(class_._meta.get_field("enrollments"), models.ForeignKey)
     self.assertIsInstance(class_._meta.get_field("sector"), models.ForeignKey)
     self.assertIsInstance(class_._meta.get_field("created_at"), models.DateTimeField)
     self.assertIsInstance(class_._meta.get_field("updated_at"), models.DateTimeField)

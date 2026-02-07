@@ -1,6 +1,6 @@
 from django.test import TestCase
-from djando.db import models
-from backend.api.models import CustomUser 
+from django.db import models
+from api.models import CustomUser 
 import importlib 
 import inspect 
 

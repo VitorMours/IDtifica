@@ -102,14 +102,34 @@ class Members(CustomUser):
 
 class Manager(CustomUser):
   pass
+  
 
+class Sector(models.Model):
+  id = models.UUIDField(primary_key=True, blank=False, null=False, editable=False, default=uuid.uuid4)
+  search_code = models.CharField(_("search code"), max_length=50, blank=False, null=False, unique=True)
+  name = models.CharField(_("name"), max_length = 255, blank=False, null=False)
+  description = models.TextField(_("description"), max_length=255, blank=False, null = False)
+  is_active = models.BooleanField(_("is active"), default=True, blank=False, null=False)
+  created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+  updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+  responsable = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True, blank=True)
+  
+  
+class Enrollment(models.Model):
+  id = models.UUIDField(primary_key=True, blank=False, null=False, editable=False, default=uuid.uuid4)
+  member = models.ForeignKey(Members, on_delete=models.CASCADE)
+  manager = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True, blank=True)
+  created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+  updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+  journey = models.ForeignKey("Journey", on_delete=models.SET_NULL, null=True, blank=True)
+  sector = models.ForeignKey(Sector, on_delete=models.SET_NULL, null=True, blank=True)
+  
 class Journey(models.Model):
   id = models.UUIDField(primary_key=True, blank=False, null=False, editable=False, default = uuid.uuid4)
   name = models.CharField(_("name"), max_length=255, blank=False, null=False)
   description = models.CharField(_("description"), max_length=255, blank=True, null=False)
   is_active = models.BooleanField(_("is active"), default=True, blank=False, null=False)
-  enrollments = models.ForeignKey()
-  sector = models.ForeignKey()
+  sector = models.ForeignKey(Sector, on_delete = models.SET_NULL, blank=True, null=True) 
   created_at = models.DateTimeField(_("created at"), auto_now_add = True)
   updated_at = models.DateTimeField(_("updated at"), auto_now = True)
   
