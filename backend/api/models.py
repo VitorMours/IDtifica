@@ -94,3 +94,23 @@ class CustomUser(AbstractUser):
 
   def __str__(self):
     return self.email
+  
+  
+class Members(CustomUser):
+  pass 
+  #is_superuser = models.BooleanField(_('is superuser'), default=False, editable=False)
+
+class Manager(CustomUser):
+  pass
+
+class Journey(models.Model):
+  id = models.UUIDField(primary_key=True, blank=False, null=False, editable=False, default = uuid.uuid4)
+  name = models.CharField(_("name"), max_length=255, blank=False, null=False)
+  description = models.CharField(_("description"), max_length=255, blank=True, null=False)
+  is_active = models.BooleanField(_("is active"), default=True, blank=False, null=False)
+  enrollments = models.ForeignKey()
+  sector = models.ForeignKey()
+  created_at = models.DateTimeField(_("created at"), auto_now_add = True)
+  updated_at = models.DateTimeField(_("updated at"), auto_now = True)
+  
+  

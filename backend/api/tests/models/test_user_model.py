@@ -73,4 +73,4 @@ class TestUserModel(TestCase):
     self.assertTrue(hasattr(class_, "get_full_name"))
   
   def test_email_field_in_the_model(self) -> None:
-    pass
+    module = importlib.import_module("api.models")
